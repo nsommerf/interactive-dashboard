@@ -134,6 +134,44 @@ function buildScatterPlot(sampleid) {
 
 };
 
+function buildGuage(sampleid){
+  console.log(sampleid);
+  var data3 = [
+    {
+      type: "indicator",
+      mode: "gauge+number",
+      value: sampleid.wfreq,
+      title: { text: "Wash Frequency", font: { size: 16 } },
+      //delta: { reference: 9, increasing: { color: "RebeccaPurple" } },
+      gauge: {
+        axis: { range: [null, 9], tickwidth: 1, tickcolor: "darkblue" },
+        bar: { color: "darkblue" },
+        bgcolor: "white",
+        borderwidth: 2,
+        bordercolor: "gray",
+        steps: [
+          { range: [0, 1], color: "lightgray" },
+          { range: [1, 2], color: "lightgray" },
+          { range: [2, 3], color: "lightgray" },
+          { range: [3, 4], color: "lightgreen" },
+          { range: [4, 5], color: "lightgreen" },
+          { range: [5, 6], color: "lightgreen" },
+          { range: [6, 7], color: "green" },
+          { range: [7, 8], color: "green" },
+          { range: [8, 9], color: "green" }
+        ],
+        threshold: {
+          line: { color: "red", width: 4 },
+          thickness: 0.75,
+          value: 7
+        }
+      }
+    }
+  ];
+  var layout = { width: 600, height: 500, margin: { t: 0, b: 0 } };
+  Plotly.newPlot('gauge', data3, layout);
+}
+
 function buildPage(id){
   otuData.then((samples) => {
     console.log(samples.metadata)
@@ -148,6 +186,8 @@ function buildPage(id){
       buildTable(samples.metadata[0]);
       //Build select
       initSelect(samples.metadata);
+      //build guage
+      buildGuage(samples.metadata[0])
     }
     else{
       for ( var i = 0 ; i < samples.metadata.length; i++) {
@@ -160,6 +200,7 @@ function buildPage(id){
           console.log(samples.metadata[i]);
           console.log(samples.samples[i]);
           buildTable(samples.metadata[i]);
+          buildGuage(samples.metadata[i]);
           buildTopTenPlot(samples.samples[i]);
           buildScatterPlot(samples.samples[i]);
         }
