@@ -48,12 +48,18 @@ function buildTable(indata) {
 
 function buildTopTenPlot(sampleid) {
   // Trace1 for the Greek Data
+  var otuy = [];
+  var otu = sampleid.otu_ids.slice(0,10).reverse();
+  for (var k=0; k< 10; k++) {
+    otuy.push("OTU - " + otu[k]);
+  }
   var trace1 = {
   //x: reversedData.map(object => object.sample_values),
   //y: reversedData.map(object => object.otu_ids),
   //text: reversedData.map(object => object.otu_labels),
     x: sampleid.sample_values.slice(0,10).reverse(),
-    y: sampleid.otu_ids.slice(0,10).reverse(),
+    //y: sampleid.otu_ids.slice(0,10).reverse(),
+    y:  otuy,
     text: sampleid.otu_labels.slice(0,10).reverse(),
     name: "Otu Top 10",
     type: "bar",
@@ -66,34 +72,12 @@ function buildTopTenPlot(sampleid) {
   // Apply the group bar mode to the layout
   var layout = {
     title: "Otu Top 10",
-    height: 600,
-    width: 200
+    height: 400,
+    width: 600
   };
-
-/*d3.json("data/samples.json").then((samples) => {
-  //  Create the Traces
-  //otu_ids = samples.samples.otu_ids
-  var trace1 = {
-    x: samples.samples[0].sample_values,
-    y: samples.samples[0].otu_ids,
-    type: "bar",
-    name: "OTUs",
-    orientation: 'h'
-  };
-
-// Create the data array for the plot
-var data = [trace1];
-
-// Define the plot layout
-var layout = {
-  title: "Samples",
-  xaxis: { title: "Sample Values" },
-  yaxis: { title: "Sample IDs" }
-};
-
 
 //console.log(samples.samples[0].otu_ids);
-*/
+
   // Render the plot to the div tag with id "plot"
   Plotly.newPlot("bar", data, layout);
 
@@ -105,10 +89,8 @@ function buildScatterPlot(sampleid) {
   var divColor = sampleid.otu_ids[0];
   var divColorLen = sampleid.otu_ids.length;
   otuColor = [];
-  //otuId = [];
  
-  
-
+  // picked 4 colors and adding based on otu
   for ( var i = 0 ; i < divColorLen; i++) {
     //otuId.push(samples.samples[i].id);
     if (sampleid.otu_ids[i] < 1000){
@@ -131,7 +113,7 @@ function buildScatterPlot(sampleid) {
     mode: 'markers',
     marker: {
       color: otuColor,
-      size: sampleid.otu_ids,
+      size: sampleid.sample_values,
       sizeref: 2,
       sizemode: 'area'
       //size: [50, 100, 150, 200]
