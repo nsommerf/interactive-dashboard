@@ -85,7 +85,7 @@ function buildTopTenPlot(sampleid) {
 
 function buildScatterPlot(sampleid) {
   var divSize = sampleid.sample_values[0];
-  var sizeref = 2.0 * sampleid .sample_values[0]/ (200**2)
+  var sizeref = 2.0 * sampleid .sample_values[0]/ (80**2)
   var divColor = sampleid.otu_ids[0];
   var divColorLen = sampleid.otu_ids.length;
   otuColor = [];
@@ -114,7 +114,7 @@ function buildScatterPlot(sampleid) {
     marker: {
       color: otuColor,
       size: sampleid.sample_values,
-      sizeref: 2,
+      sizeref: sizeref,
       sizemode: 'area'
       //size: [50, 100, 150, 200]
     },
